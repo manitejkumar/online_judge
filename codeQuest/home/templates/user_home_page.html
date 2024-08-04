@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>codeQuest</title>
+    <style>
+        /* Reset some basic styles */
+        body, h1, h2, h3, p, ul, li, a, table, th, td {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            color: inherit;
+            border-spacing: 0;
+        }
+
+        /* Body and background */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa; /* Light cyan background */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background-color: #00796b; /* Teal color */
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            background-color: #004d40; /* Darker teal on hover */
+        }
+
+        /* Container for Welcome Message and Problems Solved */
+        .dashboard-and-welcome {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin: 20px;
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            background-color: #ffffff; /* White background */
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            margin-right: 10px;
+            height:175px
+        }
+
+        /* Dashboard */
+        .dashboard {
+            background-color: #ffffff; /* White background */
+            padding: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 50%;
+            text-align: center;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #f0f0f0; /* Thin border */
+        }
+
+        .dashboard h2 {
+            margin-top: 0;
+            font-size: 1.2em;
+            color: #00796b; /* Teal color */
+        }
+
+        .dashboard p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #004d40; /* Darker teal */
+        }
+
+        /* Main content styles */
+        .main-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Table styles */
+        .problem-table {
+            width: 80%;
+            margin: 20px auto 0;
+            background-color: #ffffff; /* White background */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden; /* Ensure border radius works on all elements */
+        }
+
+        .problem-table th, .problem-table td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        .problem-table th {
+            background-color: #00796b; /* Teal color */
+            color: white;
+        }
+
+        .problem-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .problem-table a {
+            color: #00796b; /* Teal color */
+            text-decoration: none;
+        }
+
+        .problem-table a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div class="navbar">
+    <div class="logo">codeQuest</div>
+    <div class="nav-links">
+        <a href="/leaderboard">Leaderboard</a>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+
+<!-- Container for Welcome Message and Problems Solved -->
+<div class="dashboard-and-welcome">
+    <!-- Welcome Message -->
+    <div class="welcome-message">
+        <h1>Welcome {{user.username}}</h1>
+        <p>Explore contests, solve problems, and compete on the leaderboard.</p>
+        <p>Its good to start you coding journey</p>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div class="dashboard">
+        <h2>Problems Solved</h2>
+        <p id="problems-count">{{nops}}</p>
+    </div>
+</div>
+
+<!-- Main Content Section -->
+<div class="main-content">
+    <table class="problem-table">
+        <thead>
+            <tr>
+                <th>Problem Name</th>
+                <th>Difficulty</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in data_from_another_model %}
+                <tr>
+                    <td><a href="{% url 'problem_page' item.name %}">{{ item.name }}</a></td>
+                    <td>{{ item.difficulty }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

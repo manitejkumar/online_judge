@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #e0f7fa; /* Light cyan background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .login-container {
+        max-width: 400px;
+        width: 100%;
+        padding: 20px;
+        background-color: #fff; /* White background */
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      .login-header {
+        margin-bottom: 20px;
+      }
+
+      .login-header h1 {
+        font-size: 32px;
+        color: #00796b; /* Teal color for the main heading */
+      }
+
+      .login-header h3 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #004d40; /* Darker teal for the subheading */
+      }
+
+      .login-form {
+        width: 100%;
+      }
+
+      .form-group label {
+        font-weight: bold;
+        color: #00796b; /* Teal color for labels */
+        text-align: left;
+      }
+
+      .form-group input {
+        height: 45px;
+        border-radius: 5px;
+        border: 1px solid #ced4da;
+      }
+
+      .form-group input:focus {
+        border-color: #00796b; /* Teal color for focus state */
+        box-shadow: none;
+      }
+
+      .btn-primary {
+        background-color: #00796b; /* Teal color for the button */
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        width: 100%;
+        color: #ffffff; /* White text */
+      }
+
+      .btn-primary:hover {
+        background-color: #004d40; /* Darker teal for hover state */
+      }
+
+      .register-link {
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .register-link a {
+        color: #00796b; /* Teal color for links */
+        text-decoration: none;
+      }
+
+      .register-link a:hover {
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .login-container {
+          max-width: 300px;
+          padding: 15px;
+        }
+
+        .login-header h1 {
+          font-size: 28px;
+        }
+
+        .login-header h3 {
+          font-size: 20px;
+        }
+      }
+
+      @media (max-width: 576px) {
+        .login-container {
+          max-width: 100%;
+          padding: 10px;
+        }
+
+        .login-header h1 {
+          font-size: 24px;
+        }
+
+        .login-header h3 {
+          font-size: 18px;
+        }
+
+        .form-group input {
+          height: 40px;
+        }
+
+        .btn-primary {
+          padding: 8px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <!-- Login form -->
+      <form class="login-form" method="post" enctype="multipart/form-data">
+        <div class="login-header">
+          <h1>codeQuest</h1>
+          <h3>Login</h3>
+        </div>
+
+        {% csrf_token %}
+        <!-- CSRF token for security -->
+
+        <!-- Display error/success messages -->
+        {% if messages %}
+        <div class="alert alert-primary" role="alert">
+          {% for message in messages %} {{ message }} {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Username input field -->
+        <div class="form-group">
+          <label for="exampleInputEmail1">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            name="username"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            placeholder="Enter username"
+            required
+          />
+        </div>
+
+        <!-- Password input field -->
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input
+            type="password"
+            name="password"
+            class="form-control"
+            id="exampleInputPassword1"
+            placeholder="Password"
+            required
+          />
+        </div>
+
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+        <!-- Link to registration page -->
+        <div class="register-link">
+          <p>Don't have an account? <a href="/register/">Register</a></p>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

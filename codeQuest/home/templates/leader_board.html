@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <style>
+        /* Reset some basic styles */
+        body, h1, h2, h3, p, ul, li, a, table, th, td {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            color: inherit;
+            border-spacing: 0;
+        }
+
+        /* Body and background */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0f7fa; /* Light cyan background */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background-color: #00796b; /* Teal color */
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+        }
+
+        .navbar .nav-links a {
+            color: white;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .nav-links a:hover {
+            background-color: #004d40; /* Darker teal on hover */
+        }
+
+        /* Main content styles */
+        .main-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Table styles */
+        .leaderboard-table {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #ffffff; /* White background */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden; /* Ensure border radius works on all elements */
+        }
+
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        .leaderboard-table th {
+            background-color: #00796b; /* Teal color */
+            color: white;
+        }
+
+        .leaderboard-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .leaderboard-table tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        .leaderboard-table td {
+            color: #004d40; /* Darker teal for text */
+        }
+
+        .leaderboard-table a {
+            color: #00796b; /* Teal color */
+            text-decoration: none;
+        }
+
+        .leaderboard-table a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<div class="navbar">
+    <div class="logo">codeQuest</div>
+    <div class="nav-links">
+        <a href="/home">Home</a>
+    </div>
+</div>
+
+<!-- Main Content Section -->
+<div class="main-content">
+    <h1>Leaderboard</h1>
+    <table class="leaderboard-table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Problems Solved</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in leaderboard_data %}
+                <tr>
+                    <td>{{ entry.username }}</td>
+                    <td>{{ entry.solved_count }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

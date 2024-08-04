@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e0f7fa; /* Light cyan background */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .container {
+            width: 90%;
+            height: 90%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #004d40; /* Green color */
+            color: white;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        .left-column, .right-column {
+            padding: 20px;
+            box-sizing: border-box;
+            height: 100%;
+            overflow-y: auto;
+        }
+        .left-column {
+            flex: 1;
+            border-right: 1px solid #ddd;
+        }
+        .right-column {
+            flex: 1;
+        }
+        .resizer {
+            width: 10px;
+            cursor: ew-resize;
+            background-color: #ddd;
+            border-left: 1px solid #ccc;
+            border-right: 1px solid #ccc;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            color: #004d40; /* Green color */
+            border-bottom: 2px solid #004d40; /* Green color */
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .section p, .section pre {
+            background: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            white-space: pre-wrap;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .code-editor {
+            width: 100%;
+            height: 300px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .run-button, .submit-button {
+            display: inline-block;
+            width: 48%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            text-align: center;
+            color: white;
+        }
+        .run-button {
+            background-color: #004d40; /* Green color */
+        }
+        .run-button:hover {
+            background-color: #004d40; /* Darker green color */
+        }
+        .submit-button {
+            background-color: #004d40; /* Green color */
+        }
+        .submit-button:hover {
+            background-color: #1be93a; /* Darker green color */
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-weight: bold;
+            color: #004d40; /* Green color */
+        }
+        .form-group div {
+            margin-bottom: 10px;
+        }
+        .form-group input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        a{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            color: inherit;
+            border-spacing: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ ques_name }}</h1>
+            <a href="/home">home</a>
+        </div>
+        <div class="content">
+            <!-- Left Column: Question Details -->
+            <div class="left-column">
+                <div class="section">
+                    <h2>Description</h2>
+                    <p id="description">
+                        {{ desc|linebreaks }}
+                    </p>
+                </div>
+                <div class="section">
+                    <h2>Sample Input</h2>
+                    <pre id="sample-input">
+                        {{ samp_in|linebreaks }}
+                    </pre>
+                </div>
+                <div class="section">
+                    <h2>Sample Output</h2>
+                    <pre id="sample-output">
+                        {{ samp_out|linebreaks }}
+                    </pre>
+                </div>
+            </div>
+            
+            <!-- Resizer -->
+            <div class="resizer"></div>
+            
+            <!-- Right Column: Code Editor and Submit Button -->
+            <div class="right-column">
+                <h2>Code</h2>
+                <form id="codeForm" method="post">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div>
+                        {{ form.language.label_tag }}
+                        {{ form.language }}
+                        {{ form.language.errors }}
+                    </div>
+                    <div>
+                        {{ form.code.label_tag }}
+                        {{ form.code }}
+                        {{ form.code.errors }}
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label for="{{ form.input_data.id_for_label }}">{{ form.input_data.label }}</label>
+                            {{ form.input_data }}
+                            {{ form.input_data.errors }}
+                        </div>
+                        <div>
+                            <label for="{{ form.output_data.id_for_label }}">{{ form.output_data.label }}</label>
+                            {{ form.output_data }}
+                            {{ form.output_data.errors }}
+                        </div>
+                    </div>
+                    <button type="button" class="run-button" onclick="submitForm('run')">Run</button>
+                    <button type="button" class="submit-button" onclick="submitForm('submit')">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Resizer logic (if needed)
+        const resizer = document.querySelector('.resizer');
+        const leftColumn = document.querySelector('.left-column');
+        const rightColumn = document.querySelector('.right-column');
+
+        let x = 0;
+        let leftWidth = 0;
+
+        resizer.addEventListener('mousedown', (e) => {
+            x = e.clientX;
+            leftWidth = leftColumn.getBoundingClientRect().width;
+
+            document.addEventListener('mousemove', resize);
+            document.addEventListener('mouseup', stopResize);
+        });
+
+        const resize = (e) => {
+            const dx = e.clientX - x;
+            leftColumn.style.width = `${leftWidth + dx}px`;
+        };
+
+        const stopResize = () => {
+            document.removeEventListener('mousemove', resize);
+            document.removeEventListener('mouseup', stopResize);
+        };
+
+        // AJAX form submission logic
+        const form = document.getElementById('codeForm');
+        const submitForm = (action) => {
+            const formData = new FormData(form);
+
+            // Basic input validation
+            const input_data = formData.get('input_data').trim();
+
+            // Accessing ques_name
+            const quesName = "{{ ques_name }}";
+
+            // Adding ques_name to formData
+            formData.append('ques_name', quesName);
+
+            let url;
+            if (action === 'run') {
+                if (!input_data) {
+                    alert('Input data cannot be empty.');
+                    return;
+                }
+                url = "{% url 'run_code' %}";
+            } else {
+                url = "{% url 'submit_code' ques_name=ques_name %}";
+            }
+
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelector('[name="output_data"]').value = data.output_data;
+                } else {
+                    alert('An error occurred: ' + data.error);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

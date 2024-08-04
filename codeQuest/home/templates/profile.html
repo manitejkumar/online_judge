@@ -1,0 +1,206 @@
+{% block content %}
+<div class="navbar">
+    <div class="logo">codeQuest</div>
+    <div class="nav-links">
+        <a href="/home">home</a>
+        <a href="/leaderboard">Leaderboard</a>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container mt-5">
+    <h2 class="page-title">User Profile</h2>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card profile-card">
+                <div class="card-body">
+                    <div class="profile-info">
+                        <h5 class="card-title">Name:</h5>
+                        <p>{{ user.username }}</p>
+                    </div>
+                    <div class="profile-info">
+                        <h5 class="card-title">Email:</h5>
+                        <p class="card-text">{{ user.email }}</p>
+                    </div>
+                    <!-- Add profile picture if available -->
+                    <!-- <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="img-thumbnail profile-picture"> -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card activity-card">
+                <div class="card-body">
+                    <h5 class="card-title">Activity Summary</h5>
+                    <p>Total Questions Solved: {{ total_solved_questions }}</p>
+                </div>
+            </div>
+
+            <div class="card submission-card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Submission History</h5>
+                    <ul class="list-group">
+                        {% for problem in probs %}
+                            <li class="list-group-item">
+                                <strong>Problem:</strong> {{ problem.problem.name }} <br>
+                            </li>
+                        {% empty %}
+                            <li class="list-group-item">No submissions found.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Basic Reset */
+    body {
+        font-family: Arial, sans-serif;
+        color: #333;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .navbar {
+        background-color: #004d40; /* Blue */
+        color: white;
+        padding: 15px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar .logo {
+        font-size: 1.8em;
+        font-weight: bold;
+    }
+
+    .navbar .nav-links {
+        display: flex;
+    }
+
+    .navbar .nav-links a {
+        color: white;
+        padding: 10px 25px;
+        transition: background-color 0.3s ease;
+        font-weight: 500;
+    }
+
+    .navbar .nav-links a:hover {
+        background-color: #004d40; /* Slightly Lighter Blue */
+        border-radius: 5px;
+    }
+
+    .container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin: 30px auto;
+        max-width: 600px; /* Maximum width for the container */
+        width: 90%; /* Responsive width */
+    }
+
+    .page-title {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        color: #004d40; /* Blue */
+    }
+
+    .card {
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .profile-card, .activity-card, .submission-card {
+        margin-bottom: 15px;
+    }
+
+    .profile-info {
+        display: flex;
+        margin-bottom: 10px;
+        align-items: center;
+    }
+
+    .profile-info h5 {
+        margin: 0;
+        font-size: 1.2em;
+        color: #004d40; /* Blue */
+        width: 100px; /* Fixed width for labels */
+    }
+
+    .profile-info p {
+        margin: 0;
+        color: #004d40; /* Green */
+        font-size: 1em;
+    }
+
+    .profile-picture {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-top: 10px;
+    }
+
+    .activity-card .card-title, .submission-card .card-title {
+        font-size: 1.2em;
+        color: #004d40; /* Blue */
+    }
+
+    .list-group-item {
+        border: 1px solid #e57373; /* Light Red */
+        border-radius: 8px;
+        margin-bottom: 8px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 0.9em;
+        border-radius: 5px;
+        text-align: center;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        margin-right: 8px;
+    }
+
+    .btn-primary {
+        background-color: #004d40; /* Blue */
+        color: white;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #004d40; /* Slightly Lighter Blue */
+    }
+
+    .btn-secondary {
+        background-color: #004d40; /* Green */
+        color: white;
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background-color: #218838; /* Slightly Darker Green */
+    }
+
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+
+        .profile-card, .activity-card, .submission-card {
+            margin-bottom: 10px;
+        }
+    }
+</style>
+{% endblock %}
